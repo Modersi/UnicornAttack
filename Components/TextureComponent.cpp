@@ -22,10 +22,10 @@ TextureComponent::TextureComponent(std::string texturePath, int textureWidth, in
 TextureComponent::~TextureComponent()
 {
 	/* Destroying texture data */
-	SDL_DestroyTexture(texture);
+	//SDL_DestroyTexture(texture);
 }
 
-void TextureComponent::operator = (TextureAnimationComponent animation)
+void TextureComponent::setAnimation(TextureAnimationComponent animation)
 {
 	/* Destroying previous texture data to replace it with new one */
 	SDL_DestroyTexture(texture);

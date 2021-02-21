@@ -25,10 +25,10 @@ struct Map
 
 	void Restart();
 
-	bool CheckCollizionFromRight();
+	/*bool CheckCollizionFromRight();
 	bool CheckCollizionFromLeft();
 	bool CheckCollizionFromDown();
-	bool CheckCollizionWithGround();
+	bool CheckCollizionWithGround();*/
 
 	std::vector<Tile> tiles;
 };

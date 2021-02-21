@@ -9,7 +9,7 @@ struct TextureComponent
 	TextureComponent(std::string texturePath, int textureWidth, int textureHeight);
 	~TextureComponent();
 
-	void operator = (TextureAnimationComponent animation);
+	void setAnimation (TextureAnimationComponent animation);
 
 	SDL_Texture* texture;
 	int textureWidth, textureHeight;

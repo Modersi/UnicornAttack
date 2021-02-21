@@ -23,7 +23,7 @@ TextureAnimationComponent::~TextureAnimationComponent()
 
 SDL_Surface* TextureAnimationComponent::getSurfaceWithCurrentFrame()
 {
-	SDL_Surface* currentFrameSurface;
+	SDL_Surface* currentFrameSurface = new SDL_Surface();
 
 	/* Copying animation frame from animation sheet to surface, and check is everything ok */
 	if(SDL_BlitSurface(animationSheet, &currentFrameRectangle, currentFrameSurface, NULL) == -1)

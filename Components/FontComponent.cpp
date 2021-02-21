@@ -9,7 +9,7 @@ FontComponent::FontComponent()
 
 FontComponent::FontComponent(int fontSize, std::string fontFilePath)
 {
-	font = TTF_OpenFont(fontFilePath.c_str, fontSize);
+	font = TTF_OpenFont(fontFilePath.c_str(), fontSize);
 	if (font == NULL)
 		std::cout << "FontComponent constructor error:  " << TTF_GetError() << std::endl; // Добавить свой класс Exepcion-ов и бросить exeption
 }
@@ -23,7 +23,7 @@ void FontComponent::DrawText(std::string text, CoordinatesComponent coordinates,
 {	
 	int textRenderWidth, textRenderHeight;
 	
-	if (TTF_SizeText(font, text.c_str, &textRenderWidth, &textRenderHeight) != 0)
+	if (TTF_SizeText(font, text.c_str(), &textRenderWidth, &textRenderHeight) != 0)
 		std::cout << "DrawText error: " << TTF_GetError() << std::endl; // Добавить свой класс Exepcion-ов и бросить exeption
 	else
 	{
