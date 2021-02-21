@@ -1,17 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Исходные файлы">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{93d31608-a6b1-4b60-86e1-b890dde97aad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы заголовков">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="Source\Textures">
+      <UniqueIdentifier>{d2700947-aeaa-4796-ac23-c8851b7bd35e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Файлы ресурсов">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Source\Fonts">
+      <UniqueIdentifier>{86315234-aa74-48a2-b42b-2ea31909b2ac}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Source\Textures\blockInFormLikeGround.bmp">
+      <Filter>Source\Textures</Filter>
+    </Image>
+    <Image Include="Source\Textures\blockTexture.bmp">
+      <Filter>Source\Textures</Filter>
+    </Image>
+    <Image Include="Source\Textures\dephineSheet.bmp">
+      <Filter>Source\Textures</Filter>
+    </Image>
+    <Image Include="Source\Textures\UnicornDashAnimationSheet.bmp">
+      <Filter>Source\Textures</Filter>
+    </Image>
+    <Image Include="Source\Textures\UnicornFallingAnimationSheet.bmp">
+      <Filter>Source\Textures</Filter>
+    </Image>
+    <Image Include="Source\Textures\UnicornJumpingAnimationSheet.bmp">
+      <Filter>Source\Textures</Filter>
+    </Image>
+    <Image Include="Source\Textures\UnicornRunningAnimationSheet.bmp">
+      <Filter>Source\Textures</Filter>
+    </Image>
+    <Image Include="Source\Textures\unicornSheet.bmp">
+      <Filter>Source\Textures</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Source\Fonts\PixelFont.ttf">
+      <Filter>Source\Fonts</Filter>
+    </Font>
   </ItemGroup>
 </Project>

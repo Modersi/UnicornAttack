@@ -123,6 +123,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Source\Textures\blockInFormLikeGround.bmp" />
+    <Image Include="Source\Textures\blockTexture.bmp" />
+    <Image Include="Source\Textures\dephineSheet.bmp" />
+    <Image Include="Source\Textures\UnicornDashAnimationSheet.bmp" />
+    <Image Include="Source\Textures\UnicornFallingAnimationSheet.bmp" />
+    <Image Include="Source\Textures\UnicornJumpingAnimationSheet.bmp" />
+    <Image Include="Source\Textures\UnicornRunningAnimationSheet.bmp" />
+    <Image Include="Source\Textures\unicornSheet.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Source\Fonts\PixelFont.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
