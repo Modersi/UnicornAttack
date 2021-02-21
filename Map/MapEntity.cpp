@@ -1,6 +1,6 @@
 #include "MapEntity.h"
 
-MapEntity::MapEntity() : coordinates({ 0, 0 }), texture({ nullptr, 0, 0 }) {}
+MapEntity::MapEntity() : coordinates(CoordinatesComponent()), texture(TextureComponent()) {}
 
 MapEntity::MapEntity(CoordinatesComponent entityCoordinates, TextureComponent entityTexture) 
 	: coordinates(entityCoordinates), texture(entityTexture) {}

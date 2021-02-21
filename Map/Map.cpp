@@ -28,7 +28,7 @@ void Map::moveMapLeft(int pixelsToMove)
 void Map::Update()
 {
 	for (auto&& tile : tiles)
-		tile.Update;
+		tile.Update();
 
 	/* Doings with tiles to create a endless map */
 	for (auto&& tile : tiles)
@@ -36,7 +36,7 @@ void Map::Update()
 		/* Check if some tile is out of screen on left side */
 		if (tile.coordinates.xPosition + tile.ground.texture.textureWidth < 0)
 			/* Put this tile to the end of all tiles on right side */
-			tile.coordinates.xPosition = tiles[tiles.end].coordinates.xPosition + tiles[tiles.end].texture.textureWidth;
+			tile.coordinates.xPosition = tiles[tiles.size()].coordinates.xPosition + tiles[tiles.size()].ground.texture.textureWidth;
 	}
 
 	/*srand(time(NULL));
@@ -73,7 +73,7 @@ void Map::Restart()
 		tile.coordinates.Restart();
 }
 
-bool Map::CheckCollizionFromRight()
+/*bool Map::CheckCollizionFromRight()
 {
 	bool isCollide = false;
 	for (int i = 0; i < 2; i++)
@@ -147,4 +147,4 @@ bool Map::CheckCollizionWithGround()
 
 	}
 	return isCollide;
-}
+}*/

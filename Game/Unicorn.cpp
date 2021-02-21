@@ -1,7 +1,9 @@
-	#include "Unicorn.h"
+#include "Unicorn.h"
 
 Unicorn::Unicorn()
 {
+	unicornTexture = TextureComponent();
+
 	/* Animation initialization */
 	runningAnimation = TextureAnimationComponent(RUNNING_ANIMATION_SHEET_PATH, 3000, RUNNING_ANIMATION_FRAME_WIDTH, RUNNING_ANIMATION_FRAME_HEIGHT, true);
 	jumpingAnimation = TextureAnimationComponent(JUMPING_ANIMATION_SHEET_PATH, 3000, JUMPING_ANIMATION_FRAME_WIDTH, JUMPING_ANIMATION_FRAME_HEIGHT, true);
@@ -9,7 +11,7 @@ Unicorn::Unicorn()
 	dashingAnimation = TextureAnimationComponent(DASHING_ANIMATION_SHEET_PATH, 3000, DASHING_ANIMATION_FRAME_WIDTH, DASHING_ANIMATION_FRAME_HEIGHT, true);
 
 	/* Set current texture animation, let it be running animation at begin */
-	unicornTexture = runningAnimation;
+	//unicornTexture.setAnimation(runningAnimation);
 
 	/* Initialize coordinates of unicorn */
 	coordinates = CoordinatesComponent(UNICORN_START_X_POS, GROUND_Y - RUNNING_ANIMATION_FRAME_HEIGHT);
@@ -37,19 +39,19 @@ void Unicorn::HandleEvents(SDL_Event* event)
 
 	// Move right //
 	case CONRTOL_MOVE_RIGHT:
-		if((!Game::map->CheckCollizionFromRight() || Game::unicorn->unicornState == ON_BLOCK) && Game::autoGameMode == false)
+		//if((!Game::map->CheckCollizionFromRight() || Game::unicorn->unicornState == ON_BLOCK) && Game::autoGameMode == false)
 			Game::map->moveMapLeft(GAME_SPEED);
 		break;
 
 	// Move left //
 	case CONRTOL_MOVE_LEFT:
-		if ((!Game::map->CheckCollizionFromLeft() || Game::unicorn->unicornState == ON_BLOCK) && Game::autoGameMode == false)
+		//if ((!Game::map->CheckCollizionFromLeft() || Game::unicorn->unicornState == ON_BLOCK) && Game::autoGameMode == false)
 			Game::map->moveMapRight(GAME_SPEED);
 		break;
 
 	// Dash //
 	case CONRTOL_DASH:
-		if (!Game::map->CheckCollizionFromRight())
+		//if (!Game::map->CheckCollizionFromRight())
 		{
 			Game::unicorn->unicornState = DASHING;
 			Game::unicorn->lastDashTime = SDL_GetTicks();
@@ -89,13 +91,13 @@ void Unicorn::Update()
 	//------- Unicorn state check -------//
 
 	// Falling check
-	if (Game::map->CheckCollizionWithGround())
+	//if (Game::map->CheckCollizionWithGround())
 	{
 		Game::unicorn->unicornJumpState = DID_NOT_JUMPED;
 		unicornState = ON_GROUND;
 	}
 
-	else if (Game::map->CheckCollizionFromDown())
+	//else if (Game::map->CheckCollizionFromDown())
 	{
 		Game::unicorn->unicornJumpState = DID_NOT_JUMPED;
 		unicornState = ON_BLOCK;
@@ -103,7 +105,7 @@ void Unicorn::Update()
 
 	//------- Unicorn moving -------//
 
-	if ((!Game::map->CheckCollizionFromRight() || Game::unicorn->unicornState == ON_BLOCK) && Game::autoGameMode == true) // Check if there is no collizion from right, if unicorn is staying on ground and if auto game mode is turned on
+	//if ((!Game::map->CheckCollizionFromRight() || Game::unicorn->unicornState == ON_BLOCK) && Game::autoGameMode == true) // Check if there is no collizion from right, if unicorn is staying on ground and if auto game mode is turned on
 		Game::map->moveMapLeft(GAME_SPEED + (Game::gameTimer->timer.GetTimeInSeconds() / 100));
 
 	if (Game::unicorn->unicornState == FALLING) // Check if unicron  is falling
@@ -120,23 +122,23 @@ void Unicorn::Update()
 		switch (Game::unicorn->unicornState)
 		{
 		case ON_GROUND:
-			unicornTexture = runningAnimation;
+			unicornTexture.setAnimation(runningAnimation);
 			break;
 
 		case ON_BLOCK:
-			unicornTexture = runningAnimation;
+			unicornTexture.setAnimation(runningAnimation);
 			break;
 
 		case FALLING:
-			unicornTexture = fallingAnimation;
+			unicornTexture.setAnimation(fallingAnimation);
 			break;
 
 		case JUMPING:
-			unicornTexture = jumpingAnimation;
+			unicornTexture.setAnimation(jumpingAnimation);
 			break;
 
 		case DASHING:
-			unicornTexture = dashingAnimation;
+			unicornTexture.setAnimation(dashingAnimation);
 			break;
 
 		default:

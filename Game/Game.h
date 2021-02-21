@@ -68,7 +68,7 @@ public:
 	static Unicorn* unicorn;
 	static Map* map;
 	static bool autoGameMode; // Variable that show is our game running in auto mode(true) on no(false)
-	static GameTimer* gameTimer; // Variable of timer class
+	static GameTimer* gameTimer;
 
 private:
 

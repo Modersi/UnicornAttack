@@ -6,19 +6,19 @@
 #include "../Components/CoordinatesComponent.h"
 #include "../Components/TextureComponent.h"
 
-constexpr auto RUNNING_ANIMATION_SHEET_PATH = "../Source/Textures/UnicornRunningAnimationSheet.bmp";
+constexpr auto RUNNING_ANIMATION_SHEET_PATH = "Source/Textures/UnicornRunningAnimationSheet.bmp";
 constexpr auto RUNNING_ANIMATION_FRAME_HEIGHT = 92;
 constexpr auto RUNNING_ANIMATION_FRAME_WIDTH = 175;
 
-constexpr auto JUMPING_ANIMATION_SHEET_PATH = "../Source/Textures/UnicornJumpingAnimationSheet.bmp";
+constexpr auto JUMPING_ANIMATION_SHEET_PATH = "Source/Textures/UnicornJumpingAnimationSheet.bmp";
 constexpr auto JUMPING_ANIMATION_FRAME_HEIGHT = 123;
 constexpr auto JUMPING_ANIMATION_FRAME_WIDTH = 175;
 
-constexpr auto FALLING_ANIMATION_SHEET_PATH = "../Source/Textures/UnicornFallingAnimationSheet.bmp";
+constexpr auto FALLING_ANIMATION_SHEET_PATH = "Source/Textures/UnicornFallingAnimationSheet.bmp";
 constexpr auto FALLING_ANIMATION_FRAME_HEIGHT = 125;
 constexpr auto FALLING_ANIMATION_FRAME_WIDTH = 175;
 
-constexpr auto DASHING_ANIMATION_SHEET_PATH = "../Source/Textures/UnicornDashAnimationSheet.bmp";
+constexpr auto DASHING_ANIMATION_SHEET_PATH = "Source/Textures/UnicornDashAnimationSheet.bmp";
 constexpr auto DASHING_ANIMATION_FRAME_HEIGHT = 150;
 constexpr auto DASHING_ANIMATION_FRAME_WIDTH = 400;
 

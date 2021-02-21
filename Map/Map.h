@@ -5,11 +5,11 @@
 #include "../Game/Unicorn.h"
 #include "Tile.h"
 
-constexpr auto GROUND_TEXTURE_PATH =	"../Source/Textures/groundTexture.bmp";
+constexpr auto GROUND_TEXTURE_PATH =	"Source/Textures/groundTexture.bmp";
 constexpr auto GROUND_TEXTURE_HEIGHT =	75;
 constexpr auto GROUND_TEXTURE_WIDTH =	3000;
 
-constexpr auto BLOCK_TEXTURE_PATH =		"../Source/Textures/blockTexture.bmp";
+constexpr auto BLOCK_TEXTURE_PATH =		"Source/Textures/blockTexture.bmp";
 constexpr auto BLOCK_TEXTURE_HEIGHT =	180;
 constexpr auto BLOCK_TEXTURE_WIDTH =	187;
 
@@ -25,10 +25,10 @@ struct Map
 
 	void Restart();
 
-	bool CheckCollizionFromRight();
+	/*bool CheckCollizionFromRight();
 	bool CheckCollizionFromLeft();
 	bool CheckCollizionFromDown();
-	bool CheckCollizionWithGround();
+	bool CheckCollizionWithGround();*/
 
 	std::vector<Tile> tiles;
 };
