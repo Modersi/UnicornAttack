@@ -10,7 +10,7 @@ constexpr auto GAME_TIMER_Y_POSITION = 0;
 
 constexpr auto GAME_TIMER_FONT_FILE_PATH = DEFAULT_FONT_FILE_PATH;
 constexpr auto GAME_TIMER_FONT_SIZE		 = DEFAULT_FONT_SIZE;
-constexpr auto GAME_TIMER_FONT_COLOR	 = SDL_Color{0, 0, 0, 0};
+constexpr auto GAME_TIMER_FONT_COLOR	 = SDL_Color({ 0, 0, 0, 0 });
 
 struct GameTimer
 {

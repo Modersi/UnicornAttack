@@ -11,7 +11,7 @@ Unicorn::Unicorn()
 	dashingAnimation = TextureAnimationComponent(DASHING_ANIMATION_SHEET_PATH, 3000, DASHING_ANIMATION_FRAME_WIDTH, DASHING_ANIMATION_FRAME_HEIGHT, true);
 
 	/* Set current texture animation, let it be running animation at begin */
-	unicornTexture.setAnimation(runningAnimation);
+	//unicornTexture.setAnimation(runningAnimation);
 
 	/* Initialize coordinates of unicorn */
 	coordinates = CoordinatesComponent(UNICORN_START_X_POS, GROUND_Y - RUNNING_ANIMATION_FRAME_HEIGHT);

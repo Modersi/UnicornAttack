@@ -5,11 +5,11 @@
 #include "../Game/Unicorn.h"
 #include "Tile.h"
 
-constexpr auto GROUND_TEXTURE_PATH =	"../Source/Textures/groundTexture.bmp";
+constexpr auto GROUND_TEXTURE_PATH =	"Source/Textures/groundTexture.bmp";
 constexpr auto GROUND_TEXTURE_HEIGHT =	75;
 constexpr auto GROUND_TEXTURE_WIDTH =	3000;
 
-constexpr auto BLOCK_TEXTURE_PATH =		"../Source/Textures/blockTexture.bmp";
+constexpr auto BLOCK_TEXTURE_PATH =		"Source/Textures/blockTexture.bmp";
 constexpr auto BLOCK_TEXTURE_HEIGHT =	180;
 constexpr auto BLOCK_TEXTURE_WIDTH =	187;
 

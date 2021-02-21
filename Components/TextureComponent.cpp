@@ -5,6 +5,7 @@ TextureComponent::TextureComponent() : texture(nullptr), textureWidth(0), textur
 TextureComponent::TextureComponent(std::string texturePath, int textureWidth, int textureHeight)
 	: textureWidth(textureWidth), textureHeight(textureHeight) 
 {
+
 	/* Creating a surface from picture, check is everything is okay */
 	SDL_Surface* tempSurface = SDL_LoadBMP(texturePath.c_str());
 	if (tempSurface == NULL)
@@ -22,13 +23,14 @@ TextureComponent::TextureComponent(std::string texturePath, int textureWidth, in
 TextureComponent::~TextureComponent()
 {
 	/* Destroying texture data */
-	//SDL_DestroyTexture(texture);
+	SDL_DestroyTexture(texture);
 }
 
 void TextureComponent::setAnimation(TextureAnimationComponent animation)
 {
 	/* Destroying previous texture data to replace it with new one */
 	SDL_DestroyTexture(texture);
+
 
 	/* Creating a surface with current animation frame and assign it to texture */
 	SDL_Surface* surfaceWithCurrentFrame = animation.getSurfaceWithCurrentFrame();

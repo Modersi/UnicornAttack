@@ -1,11 +1,8 @@
 #include "GameTimer.h"
 
-GameTimer::GameTimer()
-{
-	gameTimerCoordinates = CoordinatesComponent(GAME_TIMER_X_POSITION, GAME_TIMER_Y_POSITION);
-	gameTimerFont = FontComponent(GAME_TIMER_FONT_SIZE, GAME_TIMER_FONT_FILE_PATH);
-	timer = TimerComponent();
-}
+GameTimer::GameTimer() : gameTimerCoordinates(GAME_TIMER_X_POSITION, GAME_TIMER_Y_POSITION),
+						 gameTimerFont(GAME_TIMER_FONT_SIZE, GAME_TIMER_FONT_FILE_PATH),
+						 timer() {}
 
 void GameTimer::Render()
 {
