@@ -1,16 +1,15 @@
 
 #pragma once
 
-#include "Game.h"
-#include "Unicorn.h"
+#include "../Game/Game.h"
+#include "../Game/Unicorn.h"
 #include "Tile.h"
-#include "MapEntity.h"
 
-constexpr auto GROUND_TEXTURE_PATH =	"./groundTexture.bmp";
+constexpr auto GROUND_TEXTURE_PATH =	"../Source/Textures/groundTexture.bmp";
 constexpr auto GROUND_TEXTURE_HEIGHT =	75;
 constexpr auto GROUND_TEXTURE_WIDTH =	3000;
 
-constexpr auto BLOCK_TEXTURE_PATH =		"./blockTexture.bmp";
+constexpr auto BLOCK_TEXTURE_PATH =		"../Source/Textures/blockTexture.bmp";
 constexpr auto BLOCK_TEXTURE_HEIGHT =	180;
 constexpr auto BLOCK_TEXTURE_WIDTH =	187;
 

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Game.h"
-#include "CoordinatesComponent.h"
-#include "TextureComponent.h"
+#include "../Game/Game.h"
+#include "../Components/CoordinatesComponent.h"
+#include "../Components/TextureComponent.h"
 
 struct MapEntity 
 {
