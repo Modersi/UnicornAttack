@@ -1,9 +1,9 @@
 #pragma once
 
-#include "./SDL2-2.0.10/include/SDL.h"
-#include "./SDL2-2.0.10/include/SDL_main.h"
-#include "./SDL2-2.0.10/include/SDL_ttf.h"
-#include "Box2D/include/box2d.h"
+#include "../SDL2/include/SDL.h"
+#include "../SDL2/include/SDL_main.h"
+#include "../SDL2/include/SDL_ttf.h"
+#include "../Box2D/include/box2d.h"
 
 #include "iostream"
 #include "string"

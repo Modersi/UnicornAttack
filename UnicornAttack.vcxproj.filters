@@ -2,6 +2,17 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Components\CoordinatesComponent.cpp" />
+    <ClCompile Include="Components\FontComponent.cpp" />
+    <ClCompile Include="Components\TextureAnimationComponent.cpp" />
+    <ClCompile Include="Components\TextureComponent.cpp" />
+    <ClCompile Include="Components\TimerComponent.cpp" />
+    <ClCompile Include="Game\Game.cpp" />
+    <ClCompile Include="Game\GameTimer.cpp" />
+    <ClCompile Include="Game\Unicorn.cpp" />
+    <ClCompile Include="Map\Map.cpp" />
+    <ClCompile Include="Map\MapEntity.cpp" />
+    <ClCompile Include="Map\Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -44,5 +55,19 @@
     <Font Include="Source\Fonts\PixelFont.ttf">
       <Filter>Source\Fonts</Filter>
     </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Components\CollisionComponent.h" />
+    <ClInclude Include="Components\CoordinatesComponent.h" />
+    <ClInclude Include="Components\FontComponent.h" />
+    <ClInclude Include="Components\TextureAnimationComponent.h" />
+    <ClInclude Include="Components\TextureComponent.h" />
+    <ClInclude Include="Components\TimerComponent.h" />
+    <ClInclude Include="Game\Game.h" />
+    <ClInclude Include="Game\GameTimer.h" />
+    <ClInclude Include="Game\Unicorn.h" />
+    <ClInclude Include="Map\Map.h" />
+    <ClInclude Include="Map\MapEntity.h" />
+    <ClInclude Include="Map\Tile.h" />
   </ItemGroup>
 </Project>

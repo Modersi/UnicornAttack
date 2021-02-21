@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Game.h"
-#include "FontComponent.h"
-#include "CoordinatesComponent.h"
-#include  "TimerComponent.h"
+#include "../Components/FontComponent.h"
+#include "../Components/CoordinatesComponent.h"
+#include  "../Components/TimerComponent.h"
 
 constexpr auto GAME_TIMER_X_POSITION = (SCREEN_WIDTH / 2) - 130;
 constexpr auto GAME_TIMER_Y_POSITION = 0;

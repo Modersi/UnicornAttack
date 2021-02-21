@@ -1,9 +1,9 @@
 ﻿#pragma once
 
-#include "Game.h"
+#include "../Game/Game.h"
 #include "CoordinatesComponent.h"
 
-constexpr auto DEFAULT_FONT_FILE_PATH = "./PixelFont.ttf";
+constexpr auto DEFAULT_FONT_FILE_PATH = "../Source/Fonts/PixelFont.ttf";
 constexpr auto DEFAULT_FONT_SIZE = 32;
 
 struct FontComponent
