@@ -3,8 +3,8 @@
 #include "../Game/Game.h"
 #include "CoordinatesComponent.h"
 
-constexpr auto DEFAULT_FONT_FILE_PATH	= "Source/Fonts/PixelFont.ttf";
-constexpr auto DEFAULT_FONT_SIZE		= 32;
+constexpr auto DEFAULT_FONT_FILE_PATH	= "Source/Fonts/OpenSans-Regular.ttf";
+constexpr auto DEFAULT_FONT_SIZE		= 60;
 
 struct FontComponent
 {

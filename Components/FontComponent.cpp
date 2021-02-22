@@ -21,16 +21,19 @@ FontComponent::~FontComponent()
 
 void FontComponent::DrawText(std::string text, CoordinatesComponent coordinates, SDL_Color fontColor)
 {	
-
-	/* Rendering text on surface and creating a texture from this surface */
-	SDL_Surface* tempSurface = TTF_RenderText_Solid(font, text.c_str(), fontColor);
+	/* Render text on surface and create a texture from this surface */
+	SDL_Surface* tempSurface = TTF_RenderText_Blended(font, text.c_str(), fontColor);
 	SDL_Texture* tempTexture = SDL_CreateTextureFromSurface(Game::renderer, tempSurface);
+
 	/* Set all fields of text render rectangle */
-	/* TTF_RenderUTF8_Solid is rendering text on surface with empty space in size of DEFAULT_FONT_SIZE / 4 in top part of surface, so we just minus it to render text in right place */
-	SDL_Rect textRenderDestinationRectangle = {coordinates.xPosition , coordinates.yPosition - DEFAULT_FONT_SIZE / 4 , text.size() * TTF_FontHeight(font), TTF_FontHeight(font)};
+	/* TTF_RenderText_Blended rendering text on surface with empty space in size of DEFAULT_FONT_SIZE / 4 in top part of surface, so we just minus it to render text in right place */
+	SDL_Rect textRenderDestinationRectangle = {coordinates.xPosition , coordinates.yPosition - DEFAULT_FONT_SIZE / 4 , 0 , 0};
+	TTF_SizeText(font, text.c_str(), &textRenderDestinationRectangle.w, &textRenderDestinationRectangle.h);
+
+	/* Render text */
 	SDL_RenderCopy(Game::renderer, tempTexture, NULL, &textRenderDestinationRectangle);
 
-	/* Deleting temp variables */
+	/* Delete temp variables */
 	SDL_FreeSurface(tempSurface);
 	SDL_DestroyTexture(tempTexture);
 }
