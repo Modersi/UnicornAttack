@@ -16,6 +16,7 @@ constexpr auto BLOCK_TEXTURE_WIDTH =	187;
 struct Map
 {
 	Map();
+
 	void moveMapRight(int pixelsToMove);
 	void moveMapLeft(int pixelsToMove);
 

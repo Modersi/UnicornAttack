@@ -11,6 +11,7 @@ struct FontComponent
 	FontComponent();
 	FontComponent(int fontSize, std::string fontFilePath);
 	~FontComponent();
+
 	FontComponent(const FontComponent&) = delete;
 	void operator=(const FontComponent&) = delete;
 

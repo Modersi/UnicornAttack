@@ -20,28 +20,35 @@ TextureComponent::TextureComponent(std::string texturePath, int textureWidth, in
 	SDL_FreeSurface(tempSurface);
 }
 
+TextureComponent::TextureComponent(SDL_Surface* surfaceWithTexture)
+{
+	/* Creating a texture from surface */
+	texture = SDL_CreateTextureFromSurface(Game::renderer, surfaceWithTexture);
+
+	/* Set texture width and height */
+	textureWidth = surfaceWithTexture->w;
+	textureHeight = surfaceWithTexture->h;
+
+	/* Error if something went wrong */
+	if (texture == NULL)
+		std::cout << "TextureComponent constructor error: SDL_CreateTextureFromSurface = NULL" << std::endl;
+}
+
 TextureComponent::~TextureComponent()
 {
 	/* Destroying texture data */
 	SDL_DestroyTexture(texture);
 }
 
-void TextureComponent::setAnimation(TextureAnimationComponent animation)
+TextureComponent* TextureComponent::operator = (const TextureAnimationComponent& animation)
 {
 	/* Destroying previous texture data to replace it with new one */
-	SDL_DestroyTexture(texture);
+	this->~TextureComponent();
 
-
-	/* Creating a surface with current animation frame and assign it to texture */
+	/* Creating a surface with current animation frame and create a new texture object with it */
 	SDL_Surface* surfaceWithCurrentFrame = animation.getSurfaceWithCurrentFrame();
-	texture = SDL_CreateTextureFromSurface(Game::renderer, surfaceWithCurrentFrame);
+	TextureComponent* newTexture = new TextureComponent(surfaceWithCurrentFrame);
 	SDL_FreeSurface(surfaceWithCurrentFrame);
-
-	/* Check if animation is on last frame && If animation is endless */
-	if (animation.currentFrameRectangle.x == animation.animationSheet->w - animation.frameWidth && animation.isEndless)
-		animation.currentFrameRectangle.x = 0; // Set animation frame to begin
-
-	/* Check if animation not is on last frame */
-	if (animation.currentFrameRectangle.x <= animation.animationSheet->w - animation.frameWidth)
-		animation.currentFrameRectangle.x += animation.frameWidth; // Moving animation frame forward
+	
+	return newTexture;
 }

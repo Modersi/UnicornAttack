@@ -8,7 +8,9 @@ struct TextureAnimationComponent
 	TextureAnimationComponent(std::string animationSheetPath, int animationSpeed, int frameWidth, int frameHeight, bool isEndless = false);
 	~TextureAnimationComponent();
 
-	SDL_Surface* getSurfaceWithCurrentFrame();
+	void Update();
+
+	SDL_Surface* getSurfaceWithCurrentFrame() const;
 
 	bool isEndless;
 	int animationSpeed;

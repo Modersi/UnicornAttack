@@ -1,9 +1,10 @@
 #include "MapEntity.h"
 
-MapEntity::MapEntity() : coordinates(CoordinatesComponent()), texture(TextureComponent()) {}
+MapEntity::MapEntity() : coordinates(), texture() {}
 
-MapEntity::MapEntity(CoordinatesComponent entityCoordinates, TextureComponent entityTexture) 
-	: coordinates(entityCoordinates), texture(entityTexture) {}
+MapEntity::MapEntity(int entityXPositon, int entityYPostion, std::string texturePath, int textureWidth, int textureHeight) : 
+	coordinates	(entityXPositon, entityYPostion),
+	texture		(texturePath, textureWidth, textureHeight) {}
 
 void MapEntity::Render()
 {
