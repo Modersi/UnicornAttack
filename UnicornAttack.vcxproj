@@ -146,6 +146,7 @@
     <Image Include="Source\Textures\blockInFormLikeGround.bmp" />
     <Image Include="Source\Textures\blockTexture.bmp" />
     <Image Include="Source\Textures\dephineSheet.bmp" />
+    <Image Include="Source\Textures\groundTexture.bmp" />
     <Image Include="Source\Textures\UnicornDashAnimationSheet.bmp" />
     <Image Include="Source\Textures\UnicornFallingAnimationSheet.bmp" />
     <Image Include="Source\Textures\UnicornJumpingAnimationSheet.bmp" />

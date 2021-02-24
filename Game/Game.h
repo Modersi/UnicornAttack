@@ -5,9 +5,10 @@
 #include "../SDL2/include/SDL_ttf.h"
 #include "../Box2D/include/box2d.h"
 
-#include "iostream"
-#include "string"
-#include "sstream"
+#include <iostream>
+#include <iomanip>
+#include <string>
+#include <sstream>
 #include <vector>
 
 

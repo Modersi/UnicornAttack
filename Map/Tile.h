@@ -5,13 +5,14 @@
 
 struct Tile
 {
-	Tile(CoordinatesComponent tileCoordinates, TextureComponent groundTexture);
+	Tile(int tileXPosition, int tileYPostion, std::string groundTexturePath, int groundTextureWidth, int groundTextureHeight);
+
 
 	void Update();
 
 	void Render();
 
-	void addEntity(CoordinatesComponent entityCoordinates, TextureComponent entityTexture);
+	void addEntity(int entityXPosition, int entityYPostion, std::string entityTexturePath, int entityTextureWidth, int entityTextureHeight);
 
 
 	MapEntity ground;

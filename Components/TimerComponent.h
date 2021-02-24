@@ -2,6 +2,7 @@
 
 #include "../Game/Game.h"
 
+
 struct TimerComponent
 {
 	TimerComponent();
@@ -14,6 +15,7 @@ struct TimerComponent
 	std::string GetTimeInString();
 	
 	void Restart();
+
 private:
 	int lastCheckpointTime;
 };

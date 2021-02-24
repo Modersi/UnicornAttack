@@ -1,10 +1,10 @@
 #include "Tile.h"
 
-Tile::Tile(CoordinatesComponent tileCoordinates, TextureComponent groundTexture) : coordinates(tileCoordinates)
-{
-	ground = MapEntity(tileCoordinates, groundTexture);
-	entities = std::vector<MapEntity>();
-}
+Tile::Tile(int tileXPosition, int tileYPostion, std::string groundTexturePath, int groundTextureWidth, int groundTextureHeight) : 
+	coordinates	{ tileXPosition, tileYPostion },
+	ground		{ tileXPosition, tileYPostion, groundTexturePath, groundTextureWidth, groundTextureHeight },
+	entities	{}
+{}
 
 void Tile::Update()
 {
@@ -24,7 +24,7 @@ void Tile::Render()
 		entity.Render();
 }
 
-void Tile::addEntity(CoordinatesComponent entityCoordinates, TextureComponent entityTexture)
+void Tile::addEntity(int entityXPosition, int entityYPostion, std::string entityTexturePath, int entityTextureWidth, int entityTextureHeight)
 {
-	entities.push_back(MapEntity(entityCoordinates, entityTexture));
+	//entities.push_back({ entityXPosition, entityYPostion, entityTexturePath, entityTextureWidth, entityTextureHeight });
 }

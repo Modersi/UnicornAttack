@@ -7,7 +7,8 @@
 struct MapEntity 
 {
 	MapEntity();
-	MapEntity(CoordinatesComponent entityCoordinates, TextureComponent entityTexture);
+	MapEntity(int entityXPositon, int entityYPostion, std::string texturePath, int textureWidth, int textureHeight);
+
 
 	void Render();
 

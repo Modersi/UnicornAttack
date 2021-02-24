@@ -25,7 +25,9 @@ int TimerComponent::GetTimeInHours()
 std::string TimerComponent::GetTimeInString()
 {
 	std::stringstream timeInString;
-	timeInString << this->GetTimeInHours() << ":" << this->GetTimeInMinutes() << ":" << this->GetTimeInSeconds();
+	timeInString << std::setfill('0') << std::setw(2) << this->GetTimeInHours() << ":"
+				 << std::setfill('0') << std::setw(2) << this->GetTimeInMinutes() << ":"
+				 << std::setfill('0') << std::setw(2) << this->GetTimeInSeconds();
 	return timeInString.str();
 }
 

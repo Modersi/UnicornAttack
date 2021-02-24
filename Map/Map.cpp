@@ -6,11 +6,11 @@
 
 Map::Map()
 {
-	// Creating 2 Tiles to build a map
-	tiles.push_back(Tile({ 0, GROUND_Y }, { GROUND_TEXTURE_PATH, GROUND_TEXTURE_WIDTH, GROUND_TEXTURE_HEIGHT }));
-	tiles.push_back(Tile({ GROUND_TEXTURE_WIDTH, GROUND_Y - 100 }, { GROUND_TEXTURE_PATH, GROUND_TEXTURE_WIDTH, GROUND_TEXTURE_HEIGHT }));
+	tiles.push_back(Tile(0, GROUND_Y, GROUND_TEXTURE_PATH, GROUND_TEXTURE_WIDTH, GROUND_TEXTURE_HEIGHT));
+	tiles.push_back(Tile(GROUND_TEXTURE_WIDTH, GROUND_Y - 100, GROUND_TEXTURE_PATH, GROUND_TEXTURE_WIDTH, GROUND_TEXTURE_HEIGHT));
+	tiles.push_back(Tile(GROUND_TEXTURE_WIDTH * 2, GROUND_Y - 200, GROUND_TEXTURE_PATH, GROUND_TEXTURE_WIDTH, GROUND_TEXTURE_HEIGHT));
 
-	tiles[1].addEntity({ 1300, tiles[1].ground.coordinates.yPosition - BLOCK_TEXTURE_HEIGHT }, { BLOCK_TEXTURE_PATH, BLOCK_TEXTURE_WIDTH, BLOCK_TEXTURE_HEIGHT });
+	//tiles[1].addEntity(1300, tiles[1].ground.coordinates.yPosition - BLOCK_TEXTURE_HEIGHT, BLOCK_TEXTURE_PATH, BLOCK_TEXTURE_WIDTH, BLOCK_TEXTURE_HEIGHT);
 }
 
 void Map::moveMapRight(int pixelsToMove)
@@ -30,35 +30,24 @@ void Map::Update()
 	for (auto&& tile : tiles)
 		tile.Update();
 
-	/* Doings with tiles to create a endless map */
-	for (auto&& tile : tiles)
+	/* Manipulations with tiles to create a endless map */
+	/* Check if the most left (tiles[0] is always most left) tile is out of screen on left side */
+	if (tiles[0].coordinates.xPosition + tiles[0].ground.texture.textureWidth < 0)
 	{
-		/* Check if some tile is out of screen on left side */
-		if (tile.coordinates.xPosition + tile.ground.texture.textureWidth < 0)
-			/* Put this tile to the end of all tiles on right side */
-			tile.coordinates.xPosition = tiles[tiles.size()].coordinates.xPosition + tiles[tiles.size()].ground.texture.textureWidth;
-	}
+		//std::cout << "---------Before---------" << std::endl;
+		//for (size_t i = 0; i < tiles.size(); i++)
+		//	std::cout << "ID[" << i << "] X: " << tiles[i].coordinates.xPosition << " Y : " << tiles[i].coordinates.yPosition << std::endl;
 
-	/*srand(time(NULL));
-	// Check if there is end of ground on the right side
-	if (tile[1]->xPosition + GROUND_TEXTURE_WIDTH < SCREEN_WIDTH)
-	{
-		// super-duper manipulations with tile
-		tile[0]->xPosition = tile[1]->xPosition + GROUND_TEXTURE_WIDTH + (100 + rand() % 500);
-		Tile *temp = tile[0];
-		tile[0] = tile[1];
-		tile[1] = temp;
-	}
+		/* Put this tile coordinates to the end of all tiles on right side */
+		tiles[0].coordinates.xPosition = tiles[tiles.size() - 1].coordinates.xPosition + tiles[tiles.size() - 1].ground.texture.textureWidth;
+		/* And put this tile to end of tiles[] by adding him to end and deleting him from begin */
+		tiles.push_back(tiles[0]);
+		tiles.erase(tiles.begin());
 
-	// Check if there is end of ground on the left side
-	if (tile[0]->xPosition >= 0)
-	{
-		// super-duper manipulations with tile
-		tile[1]->xPosition = tile[0]->xPosition - GROUND_TEXTURE_WIDTH - (100 + rand() % 500);
-		Tile* temp = tile[0];
-		tile[0] = tile[1];
-		tile[1] = temp;
-	}*/
+		//std::cout << "---------After---------" << std::endl;
+		//for (size_t i = 0; i < tiles.size(); i++)
+		//	std::cout << "ID[" << i << "] X: " << tiles[i].coordinates.xPosition << " Y : " << tiles[i].coordinates.yPosition << std::endl;
+	}
 }
 
 void Map::Render()
