@@ -15,6 +15,7 @@ struct TimerComponent
 	std::string GetTimeInString();
 	
 	void Restart();
+
 private:
 	int lastCheckpointTime;
 };

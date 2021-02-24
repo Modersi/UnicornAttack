@@ -8,9 +8,9 @@ struct TextureComponent
 	TextureComponent();
 	TextureComponent(std::string texturePath, int textureWidth, int textureHeight);
 	TextureComponent(SDL_Surface* surfaceWithTexture);
-	~TextureComponent();
+	void DestroyTexture();
 
-	TextureComponent* operator = (const TextureAnimationComponent& animation);
+	void operator = (const TextureAnimationComponent& animation);
 
 	SDL_Texture* texture;
 	int textureWidth, textureHeight;

@@ -6,7 +6,7 @@ struct TextureAnimationComponent
 {
 	TextureAnimationComponent();
 	TextureAnimationComponent(std::string animationSheetPath, int animationSpeed, int frameWidth, int frameHeight, bool isEndless = false);
-	~TextureAnimationComponent();
+	void DestroyTextureAnimation();
 
 	void Update();
 

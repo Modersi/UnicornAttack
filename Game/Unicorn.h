@@ -60,7 +60,7 @@ public:
 	{
 		DID_NOT_JUMPED,
 		JUMPED,
-		DOUBLE_JUMPED,
+		DOUBLE_JUMPED
 	};
 
 	void HandleEvents(SDL_Event* event);

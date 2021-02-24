@@ -1,9 +1,14 @@
 #include "TextureComponent.h"
 
-TextureComponent::TextureComponent() : texture(nullptr), textureWidth(0), textureHeight(0) {}
+TextureComponent::TextureComponent() :
+	texture{},
+	textureWidth{ 0 },
+	textureHeight{ 0 } 
+{}
 
-TextureComponent::TextureComponent(std::string texturePath, int textureWidth, int textureHeight)
-	: textureWidth(textureWidth), textureHeight(textureHeight) 
+TextureComponent::TextureComponent(std::string texturePath, int textureWidth, int textureHeight) :
+	textureWidth{ textureWidth },
+	textureHeight{ textureHeight }  
 {
 
 	/* Creating a surface from picture, check is everything is okay */
@@ -16,7 +21,7 @@ TextureComponent::TextureComponent(std::string texturePath, int textureWidth, in
 	if (texture == NULL)
 		std::cout << "TextureComponent constructor error: SDL_CreateTextureFromSurface = NULL" << std::endl;
 
-	/* Destroying temporary surface data */
+	/* Destroying temporary surface */
 	SDL_FreeSurface(tempSurface);
 }
 
@@ -34,21 +39,24 @@ TextureComponent::TextureComponent(SDL_Surface* surfaceWithTexture)
 		std::cout << "TextureComponent constructor error: SDL_CreateTextureFromSurface = NULL" << std::endl;
 }
 
-TextureComponent::~TextureComponent()
+void TextureComponent::operator = (const TextureAnimationComponent& animation)
 {
-	/* Destroying texture data */
-	SDL_DestroyTexture(texture);
+	/* Destroying previous texture to replace it with new one */
+	this->DestroyTexture();
+
+	/* Creating a surface with current animation frame */
+	SDL_Surface* surfaceWithCurrentFrame = animation.getSurfaceWithCurrentFrame();
+
+	/* Creating a new texture from surface with animation frame and setting texture width and height */
+	texture = SDL_CreateTextureFromSurface(Game::renderer, surfaceWithCurrentFrame);
+	textureWidth = surfaceWithCurrentFrame->w;
+	textureHeight = surfaceWithCurrentFrame->h;
+
+	/* Destroying temporary surface */
+	SDL_FreeSurface(surfaceWithCurrentFrame);
 }
 
-TextureComponent* TextureComponent::operator = (const TextureAnimationComponent& animation)
+void TextureComponent::DestroyTexture()
 {
-	/* Destroying previous texture data to replace it with new one */
-	this->~TextureComponent();
-
-	/* Creating a surface with current animation frame and create a new texture object with it */
-	SDL_Surface* surfaceWithCurrentFrame = animation.getSurfaceWithCurrentFrame();
-	TextureComponent* newTexture = new TextureComponent(surfaceWithCurrentFrame);
-	SDL_FreeSurface(surfaceWithCurrentFrame);
-	
-	return newTexture;
+	SDL_DestroyTexture(texture);
 }

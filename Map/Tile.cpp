@@ -1,9 +1,9 @@
 #include "Tile.h"
 
 Tile::Tile(int tileXPosition, int tileYPostion, std::string groundTexturePath, int groundTextureWidth, int groundTextureHeight) : 
-	coordinates	(tileXPosition, tileYPostion),
-	ground		(tileXPosition, tileYPostion, groundTexturePath, groundTextureWidth, groundTextureHeight),
-	entities	() 
+	coordinates	{ tileXPosition, tileYPostion },
+	ground		{ tileXPosition, tileYPostion, groundTexturePath, groundTextureWidth, groundTextureHeight },
+	entities	{}
 {}
 
 void Tile::Update()

@@ -1,19 +1,21 @@
 #include "Unicorn.h"
-					 /* Initializing empty unicorn texture */
-Unicorn::Unicorn() : unicornTexture(),
+					 
+Unicorn::Unicorn() : 
+	/* Unicorn starting coordinates initializing */
+	coordinates{ UNICORN_START_X_POS, GROUND_Y - RUNNING_ANIMATION_FRAME_HEIGHT },
 
-					 /* All texture animation initializing */
-					 runningAnimation(RUNNING_ANIMATION_SHEET_PATH, RUNNING_ANIMATION_SPEED, RUNNING_ANIMATION_FRAME_WIDTH, RUNNING_ANIMATION_FRAME_HEIGHT, true),
-					 jumpingAnimation(JUMPING_ANIMATION_SHEET_PATH, JUMPING_ANIMATION_SPEED, JUMPING_ANIMATION_FRAME_WIDTH, JUMPING_ANIMATION_FRAME_HEIGHT, true),
-					 fallingAnimation(FALLING_ANIMATION_SHEET_PATH, FALLING_ANIMATION_SPEED, FALLING_ANIMATION_FRAME_WIDTH, FALLING_ANIMATION_FRAME_HEIGHT, true),
-					 dashingAnimation(DASHING_ANIMATION_SHEET_PATH, DASHING_ANIMATION_SPEED, DASHING_ANIMATION_FRAME_WIDTH, DASHING_ANIMATION_FRAME_HEIGHT, true),
+	/* Initializing empty unicorn texture */
+	unicornTexture{},
 
-					 /* Unicorn starting coordinates initializing */
-					 coordinates(UNICORN_START_X_POS, GROUND_Y - RUNNING_ANIMATION_FRAME_HEIGHT),
+	/* All texture animation initializing */
+	runningAnimation{ RUNNING_ANIMATION_SHEET_PATH, RUNNING_ANIMATION_SPEED, RUNNING_ANIMATION_FRAME_WIDTH, RUNNING_ANIMATION_FRAME_HEIGHT, true },
+	jumpingAnimation{ JUMPING_ANIMATION_SHEET_PATH, JUMPING_ANIMATION_SPEED, JUMPING_ANIMATION_FRAME_WIDTH, JUMPING_ANIMATION_FRAME_HEIGHT, false },
+	fallingAnimation{ FALLING_ANIMATION_SHEET_PATH, FALLING_ANIMATION_SPEED, FALLING_ANIMATION_FRAME_WIDTH, FALLING_ANIMATION_FRAME_HEIGHT, false },
+	dashingAnimation{ DASHING_ANIMATION_SHEET_PATH, DASHING_ANIMATION_SPEED, DASHING_ANIMATION_FRAME_WIDTH, DASHING_ANIMATION_FRAME_HEIGHT, false },
 
-					 /*	Timers initialization */
-					 lastJumpTimer(),
-					 lastDashTimer()
+	/*Timers initialization */
+	lastJumpTimer{},
+	lastDashTimer{}
 {
 	/* Set current texture animation, let it be running animation at begin */
 	unicornTexture = runningAnimation;
@@ -150,6 +152,8 @@ void Unicorn::Update()
 		lastTime = currentTime;
 	}*/
 
+	unicornTexture = runningAnimation;
+
 	/* All animation update (move current animation frame to next step) */
 	runningAnimation.Update();
 	jumpingAnimation.Update();
@@ -169,4 +173,10 @@ void Unicorn::Restart()
 }
 
 Unicorn::~Unicorn()
-{}
+{
+	unicornTexture.DestroyTexture();
+	runningAnimation.DestroyTextureAnimation();
+	jumpingAnimation.DestroyTextureAnimation();
+	fallingAnimation.DestroyTextureAnimation();
+	dashingAnimation.DestroyTextureAnimation();
+}

@@ -50,6 +50,7 @@
     <Image Include="Source\Textures\unicornSheet.bmp">
       <Filter>Source\Textures</Filter>
     </Image>
+    <Image Include="Source\Textures\groundTexture.bmp" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Source\Fonts\PixelFont.ttf">
