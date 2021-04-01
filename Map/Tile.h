@@ -1,21 +1,43 @@
 #pragma once
 
 #include "../Game/Game.h"
-#include "MapEntity.h"
+#include "Entities/MultiVertexStaticEntity.h"
+#include "Entities/SquareStaticEntity.h"
 
-struct Tile
+class Tile
 {
-	Tile(int tileXPosition, int tileYPostion, std::string groundTexturePath, int groundTextureWidth, int groundTextureHeight);
-
+public:
+	Tile(int tileXPosition, int tileYPosition);
+	void DestroyTile();
 
 	void Update();
 
-	void Render();
+	void Render() const;
 
-	void addEntity(int entityXPosition, int entityYPostion, std::string entityTexturePath, int entityTextureWidth, int entityTextureHeight);
+	void Restart();
 
+	void AddStar(int relativeStarXPosition, int relativeStarYPosition);
 
-	MapEntity ground;
-	std::vector<MapEntity> entities;
-	CoordinatesComponent coordinates;
+	void AddGroundSpikes(int relativeSpikesXPosition, int relativeSpikesYPosition);
+
+	void SetGround(int relativeGroundXPosition, int relativeGroundYPosition,
+				   std::string groundTexturePath, int groundTextureWidth, int groundTextureHeight,
+				   std::vector<b2Vec2> groundVertexes);
+
+	int getTileWidth() const;
+	int getTileHeight() const;
+
+	int GetXPosition() const;
+	int GetYPosition() const;
+
+	void SetPosition(const int& xPosition, const int& yPosition);
+	void SetPosition(const SDL_Rect& positionRectangle);
+	void SetPosition(const b2Vec2& positionCoordinates);
+	void SetPosition(const CoordinatesComponent& positionCoordinates);
+
+private:
+	MultiVertexStaticEntity tileGround;
+	std::vector<SquareStaticEntity> tileStars;
+	std::vector<SquareStaticEntity> tileGroundSpikes;
+	CoordinatesComponent tileCoordinates;
 };

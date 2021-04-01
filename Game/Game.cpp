@@ -2,16 +2,16 @@
 #include "Unicorn.h"
 #include "../Map/Map.h"
 #include "GameTimer.h"
+#include "Camera.h"
+#include "ContactListener.h"
 
 
+SDL_Window* Game::window = nullptr;
 SDL_Renderer* Game::renderer = nullptr;
-Unicorn* Game::unicorn = nullptr;
-SDL_Event Game::event;
-Map* Game::map = nullptr;
-bool Game::autoGameMode;
-GameTimer* Game::gameTimer = nullptr;
-
-Game::Game() {}
+SDL_Event* Game::event = nullptr;
+Camera* Game::camera = nullptr;
+b2World* Game::box2DWorld = nullptr;
+ContactListener* Game::contactListener = nullptr;
 
 Game::Game(const char* title, int width, int height, bool isFullscreen)
 {
@@ -29,6 +29,13 @@ Game::Game(const char* title, int width, int height, bool isFullscreen)
 		isRunning = false;
 	}
 
+	// Initializing SDL IMG
+	if (IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG) != 0) {	// If initialization went wrong write error to console than stop the game
+		SDL_Quit();
+		printf("SDL_IMG_Init error: %s\n", TTF_GetError());
+		isRunning = false;
+	}
+
 	// Initializing window and renderer
 	int flags = (isFullscreen == true) ? SDL_WINDOW_FULLSCREEN : 0; // Define if we want fullscreen mode
 	if (SDL_CreateWindowAndRenderer(width, height, flags, &window, &renderer) != 0) { // If creating went wrong write an error to console than stop the game
@@ -38,72 +45,62 @@ Game::Game(const char* title, int width, int height, bool isFullscreen)
 	}
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-	isRunning = true;
+	Game::isRunning = true;
 
-	unicorn = new Unicorn();
+	Game::contactListener = new ContactListener();
 
-	gameTimer = new GameTimer();
+	Game::box2DWorld = new b2World(b2Vec2(0.0f, -25.0f));
+	Game::box2DWorld->SetContactListener(contactListener);
 
-	map = new Map();
+	Game::event = new SDL_Event();
 
-	autoGameMode = false;
+	Game::unicorn = new Unicorn();
+
+	Game::camera = new Camera(0, 0);
+
+	Game::map = new Map();
+
+	Game::gameTimer = new GameTimer();
+
 }
 
-void Game::handleEvents()
+void Game::HandleEvents()
 {
-	SDL_PollEvent(&Game::event);
+	SDL_PollEvent(Game::event);
 
 	// SDL SHUTDOWN //
-	if (Game::event.type == SDL_QUIT)
+	if (Game::event->type == SDL_QUIT)
 	{
-		isRunning = false;
+		Game::isRunning = false;
 	}
 
 	// KEY PRESSED ///
-	if (Game::event.type == SDL_KEYDOWN)
+	if (Game::event->type == SDL_KEYDOWN)
 	{
-		switch (Game::event.key.keysym.sym)
+		switch (Game::event->key.keysym.sym)
 		{
 		//-----------  Game handling  -----------//
 
 			// Quit from game //
 			case CONRTOL_GAME_QUIT:
-				isRunning = false;
+				Game::isRunning = false;
 				break;
 
 			// New game //
 			case CONRTOL_NEW_GAME:
-				restart();
-				break;
-
-			// Change game mode //
-			case CONRTOL_CHANGE_GAME_MODE:
-				if (autoGameMode == false)
-					autoGameMode = true;
-				else
-					autoGameMode = false;
+				Restart();
 				break;
 
 		//-----------  Unicorn handling  -----------//
 
-			// Move right //
-			case CONRTOL_MOVE_RIGHT:
-				Game::unicorn->HandleEvents(&event);
-				break;
-
-			// Move left //
-			case CONRTOL_MOVE_LEFT:
-				Game::unicorn->HandleEvents(&event);
-				break;
-
 			// Jump //
 			case CONRTOL_JUMP:
-				Game::unicorn->HandleEvents(&event);
-				break;
-
-			// Dash //
+				Game::unicorn->HandleEvents(event);
+				break;		 
+							 
+			// Dash //		 
 			case CONRTOL_DASH:
-				Game::unicorn->HandleEvents(&event);
+				Game::unicorn->HandleEvents(event);
 				break;
 
 			default:
@@ -112,24 +109,25 @@ void Game::handleEvents()
 	}
 }
 
-void Game::update()
+void Game::Update()
 {
+	Game::box2DWorld->Step(TIME_STEP, VELOCITY_ITERATONS, POSITION_ITERATONS);
 	Game::unicorn->Update();
 	Game::map->Update();
 }
 
-void Game::render()
+void Game::Render()
 {
 	SDL_RenderClear(Game::renderer);
 	
+	Game::map->Render();
 	Game::unicorn->Render();
 	Game::gameTimer->Render();
-	Game::map->Render();
 
 	SDL_RenderPresent(Game::renderer);
 }
 
-void Game::restart()
+void Game::Restart()
 {
 	Game::unicorn->Restart();
 	Game::gameTimer->Restart();
@@ -138,10 +136,28 @@ void Game::restart()
  
 Game::~Game()
 {
-	delete unicorn;
-	SDL_DestroyWindow(window);
+	delete Game::unicorn;
+	Game::unicorn = nullptr;
+
+	delete Game::event;
+	Game::event = nullptr;
+
+	delete Game::map;
+	Game::map = nullptr;
+
+	delete Game::gameTimer;
+	Game::gameTimer = nullptr;
+
+	delete Game::camera;
+	Game::camera = nullptr;
+
+	delete Game::contactListener;
+	Game::contactListener = nullptr;
+
+	Game::box2DWorld->~b2World();
+	box2DWorld = nullptr;
+
+	SDL_DestroyWindow(Game::window);
 	SDL_DestroyRenderer(Game::renderer);
 	SDL_Quit();
-
-	printf("Game Cleaned\n");
 }

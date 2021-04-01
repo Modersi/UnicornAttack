@@ -4,136 +4,104 @@
 
 
 
-Map::Map()
+Map::Map() : 
+//**  Initializing background texture **//
+	backgroundTexture(BACKGROUND_TEXTURE_PATH, BACKGROUND_TEXTURE_WIDTH, BACKGROUND_TEXTURE_HEIGHT)
 {
-	tiles.push_back(Tile(0, GROUND_Y, GROUND_TEXTURE_PATH, GROUND_TEXTURE_WIDTH, GROUND_TEXTURE_HEIGHT));
-	tiles.push_back(Tile(GROUND_TEXTURE_WIDTH, GROUND_Y - 100, GROUND_TEXTURE_PATH, GROUND_TEXTURE_WIDTH, GROUND_TEXTURE_HEIGHT));
-	tiles.push_back(Tile(GROUND_TEXTURE_WIDTH * 2, GROUND_Y - 200, GROUND_TEXTURE_PATH, GROUND_TEXTURE_WIDTH, GROUND_TEXTURE_HEIGHT));
+//** Initializing seed of random generator  **//
+	std::random_device randomNumber;
+	randomNumbersGenerator.seed(randomNumber());
 
-	//tiles[1].addEntity(1300, tiles[1].ground.coordinates.yPosition - BLOCK_TEXTURE_HEIGHT, BLOCK_TEXTURE_PATH, BLOCK_TEXTURE_WIDTH, BLOCK_TEXTURE_HEIGHT);
+//**  Creating tiles   **//
+
+	std::vector<b2Vec2> groundVertexes;
+
+	/* First tile */
+	tiles.push_back(Tile(0, 400));
+
+
+	groundVertexes = { {0.0f, -PIXELS_TO_METERS(237)},
+					   {PIXELS_TO_METERS(612), -PIXELS_TO_METERS(237)},
+					   {PIXELS_TO_METERS(612), 0.0f},
+					   {PIXELS_TO_METERS(1225), 0.0f},
+					   {PIXELS_TO_METERS(1225), -PIXELS_TO_METERS(639)},
+					   {0.0f, -PIXELS_TO_METERS(639)} };
+
+	tiles[0].SetGround(0, 0, GROUND_1_TEXTURE_PATH, GROUND_1_TEXTURE_WIDTH, GROUND_1_TEXTURE_HEIGHT, groundVertexes);
+	tiles[0].AddStar(750, -180);
+	tiles[0].AddGroundSpikes(560, 50);
+
+	/* Second tile */
+	tiles.push_back(Tile(2000, 700));
+
+	groundVertexes = { {0.0f, 0.0f},
+					   {PIXELS_TO_METERS(611), 0.0f},
+					   {PIXELS_TO_METERS(611), -PIXELS_TO_METERS(237)},
+					   {PIXELS_TO_METERS(1224), -PIXELS_TO_METERS(237)},
+					   {PIXELS_TO_METERS(1224), 0.0f},
+					   {PIXELS_TO_METERS(1834), 0.0f},
+					   {PIXELS_TO_METERS(1834), -PIXELS_TO_METERS(639)},
+					   {0.0f, -PIXELS_TO_METERS(639)} };
+
+	tiles[1].SetGround(0, 0, GROUND_2_TEXTURE_PATH, GROUND_2_TEXTURE_WIDTH, GROUND_2_TEXTURE_HEIGHT, groundVertexes);
+	tiles[1].AddStar(400, -180);
+	tiles[1].AddGroundSpikes(1185, 50);
 }
 
-void Map::moveMapRight(int pixelsToMove)
+Map::~Map()
 {
+//** All tiles de$$troying **//
 	for (auto&& tile : tiles)
-		tile.coordinates.xPosition += pixelsToMove;
-}
-
-void Map::moveMapLeft(int pixelsToMove)
-{
-	for (auto&& tile : tiles)
-		tile.coordinates.xPosition -= pixelsToMove;
+		tile.DestroyTile();
 }
 
 void Map::Update()
 {
+//** All tiles update **//
 	for (auto&& tile : tiles)
 		tile.Update();
 
-	/* Manipulations with tiles to create a endless map */
+//**  Initialization of distribution generators **//
+
+	std::uniform_int_distribution<int> randomDistanceBetweenTiles(500, 1500); // (min distance, max distance)
+	std::uniform_int_distribution<int> randomTileYPosition(0 , 500); // (min y delta, max y delta)
+
+//** Manipulations with tiles to create an endless map **//
+
 	/* Check if the most left (tiles[0] is always most left) tile is out of screen on left side */
-	if (tiles[0].coordinates.xPosition + tiles[0].ground.texture.textureWidth < 0)
+	if (tiles[1].GetXPosition() < Game::camera->GetXPosition())
 	{
 		//std::cout << "---------Before---------" << std::endl;
 		//for (size_t i = 0; i < tiles.size(); i++)
-		//	std::cout << "ID[" << i << "] X: " << tiles[i].coordinates.xPosition << " Y : " << tiles[i].coordinates.yPosition << std::endl;
-
-		/* Put this tile coordinates to the end of all tiles on right side */
-		tiles[0].coordinates.xPosition = tiles[tiles.size() - 1].coordinates.xPosition + tiles[tiles.size() - 1].ground.texture.textureWidth;
-		/* And put this tile to end of tiles[] by adding him to end and deleting him from begin */
+		//	std::cout << "ID[" << i << "] X: " << tiles[i].GetXPosition() << " Y : " << tiles[i].GetYPosition() << std::endl;
+	
+		/* Put most left(always tiles[0]) tile coordinates to the end of all tiles on right side */
+		tiles[0].SetPosition(tiles[tiles.size() - 1].GetXPosition() + tiles[tiles.size() - 1].getTileWidth() + randomDistanceBetweenTiles(randomNumbersGenerator),
+							 tiles[0].GetYPosition() + randomTileYPosition(randomNumbersGenerator));
+	
+		/* And put this tile to end of tiles vector simply by adding him to end and deleting him from begin */
 		tiles.push_back(tiles[0]);
 		tiles.erase(tiles.begin());
-
+	
 		//std::cout << "---------After---------" << std::endl;
 		//for (size_t i = 0; i < tiles.size(); i++)
-		//	std::cout << "ID[" << i << "] X: " << tiles[i].coordinates.xPosition << " Y : " << tiles[i].coordinates.yPosition << std::endl;
+		//	std::cout << "ID[" << i << "] X: " << tiles[i].GetXPosition() << " Y : " << tiles[i].GetYPosition() << std::endl;
 	}
 }
 
-void Map::Render()
+void Map::Render() const
 {
+//** Background texture render **//
+	SDL_RenderCopy(Game::renderer, backgroundTexture.texture, NULL, NULL);
+
+//** All tiles render **//
 	for (auto&& tile : tiles)
 		tile.Render();
 }
 
 void Map::Restart()
 {
+//** All tiles restart **//
 	for (auto&& tile : tiles)
-		tile.coordinates.Restart();
+		tile.Restart();
 }
-
-/*bool Map::CheckCollizionFromRight()
-{
-	bool isCollide = false;
-	for (int i = 0; i < 2; i++)
-	{
-		for (int j = 0; j < tile[i]->blocksCount; j++)
-		{
-			if (Game::unicorn->getYPos() + UNICORN_TEXTURE_HEIGHT >= tile[i]->blocks[j].destinationRectangle.y)// Check if player is on block high
-			{
-				if (tile[i]->blocks[j].destinationRectangle.x >= Game::unicorn->getXPos()) // Check if block is from right side
-				{
-					if (Game::unicorn->getXPos() + UNICORN_TEXTURE_WIDTH >= tile[i]->blocks[j].destinationRectangle.x) // Check if unicorn collide with block
-						isCollide = true;
-				}
-			}
-		}	
-	}
-	return isCollide;
-}
-
-bool Map::CheckCollizionFromLeft()
-{
-	bool isCollide = false;
-	for (int i = 0; i < 2; i++)
-	{
-		for (int j = 0; j < tile[i]->blocksCount; j++)
-		{
-			if (Game::unicorn->getYPos() + UNICORN_TEXTURE_HEIGHT >= tile[i]->blocks[j].destinationRectangle.y) // Check if player higher than block
-			{
-				if (tile[i]->blocks[j].destinationRectangle.x <= Game::unicorn->getXPos()) // Check if block is from left side
-				{
-					if (Game::unicorn->getXPos() <= tile[i]->blocks[j].destinationRectangle.x + BLOCK_TEXTURE_WIDTH) // Check if unicorn collide with block
-						isCollide = true;
-				}
-			}
-		}
-	}
-	return isCollide;
-}
-
-bool Map::CheckCollizionFromDown()
-{
-	bool isCollide = false;
-	for (int i = 0; i < 2; i++)
-	{
-		for (int j = 0; j < tile[i]->blocksCount; j++)
-		{
-			if (Game::unicorn->getXPos() >= tile[i]->blocks[j].destinationRectangle.x && // Check if unicorn is staying on block
-				Game::unicorn->getXPos() <= tile[i]->blocks[j].destinationRectangle.x + BLOCK_TEXTURE_WIDTH ||
-				Game::unicorn->getXPos() + UNICORN_TEXTURE_WIDTH >= tile[i]->blocks[j].destinationRectangle.x &&
-				Game::unicorn->getXPos() + UNICORN_TEXTURE_WIDTH <= tile[i]->blocks[j].destinationRectangle.x + BLOCK_TEXTURE_WIDTH)
-			{
-				if (Game::unicorn->getYPos() + UNICORN_TEXTURE_HEIGHT >= tile[i]->blocks[j].destinationRectangle.y)
-					isCollide = true;
-			}
-		}
-	}
-	return isCollide;
-}
-
-bool Map::CheckCollizionWithGround()
-{
-	bool isCollide = false;
-	for (int i = 0; i < 2; i++)
-	{
-		if (Game::unicorn->getXPos() >= tile[i]->ground->destinationRectangle.x &&
-			Game::unicorn->getXPos() <= tile[i]->ground->destinationRectangle.x + GROUND_TEXTURE_WIDTH || 
-			Game::unicorn->getXPos() + UNICORN_TEXTURE_WIDTH >= tile[i]->ground->destinationRectangle.x &&
-			Game::unicorn->getXPos() + UNICORN_TEXTURE_WIDTH <= tile[i]->ground->destinationRectangle.x + GROUND_TEXTURE_WIDTH)
-					if (Game::unicorn->getYPos() + UNICORN_TEXTURE_HEIGHT == tile[i]->ground->destinationRectangle.y)
-						isCollide = true;
-
-	}
-	return isCollide;
-}*/

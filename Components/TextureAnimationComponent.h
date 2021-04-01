@@ -5,16 +5,16 @@
 struct TextureAnimationComponent
 {
 	TextureAnimationComponent();
-	TextureAnimationComponent(std::string animationSheetPath, int animationSpeed, int frameWidth, int frameHeight, bool isEndless = false);
+	TextureAnimationComponent(std::string animationSheetPath, int frameWidth, int frameHeight, bool isEndless = false);
 	void DestroyTextureAnimation();
 
 	void Update();
 
+	void Restart();
+
 	SDL_Surface* getSurfaceWithCurrentFrame() const;
 
 	bool isEndless;
-	int animationSpeed;
-	int frameWidth, frameHeight;
 	SDL_Rect currentFrameRectangle;
 	SDL_Surface* animationSheet;
 };

@@ -12,14 +12,17 @@ constexpr auto GAME_TIMER_FONT_FILE_PATH = DEFAULT_FONT_FILE_PATH;
 constexpr auto GAME_TIMER_FONT_SIZE		 = DEFAULT_FONT_SIZE;
 constexpr auto GAME_TIMER_FONT_COLOR	 = SDL_Color({ 0, 0, 0, 0 });
 
-struct GameTimer
+class GameTimer
 {
+public:
 	GameTimer();
+	~GameTimer();
 		
 	void Render();
 
 	void Restart();
 
+private: 
 	CoordinatesComponent gameTimerCoordinates;
 	FontComponent gameTimerFont;
 	TimerComponent timer;

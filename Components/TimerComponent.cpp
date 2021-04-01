@@ -1,6 +1,8 @@
 ﻿#include "TimerComponent.h"
 
-TimerComponent::TimerComponent() : lastCheckpointTime(SDL_GetTicks()) {}
+TimerComponent::TimerComponent() : 
+	lastCheckpointTime(SDL_GetTicks()) 
+{}
 
 int TimerComponent::GetTimeInMilliseconds()
 {
@@ -26,8 +28,8 @@ std::string TimerComponent::GetTimeInString()
 {
 	std::stringstream timeInString;
 	timeInString << std::setfill('0') << std::setw(2) << this->GetTimeInHours() << ":"
-				 << std::setfill('0') << std::setw(2) << this->GetTimeInMinutes() << ":"
-				 << std::setfill('0') << std::setw(2) << this->GetTimeInSeconds();
+				 << std::setfill('0') << std::setw(2) << this->GetTimeInMinutes() % 60 << ":"
+				 << std::setfill('0') << std::setw(2) << this->GetTimeInSeconds() % 60;
 	return timeInString.str();
 }
 

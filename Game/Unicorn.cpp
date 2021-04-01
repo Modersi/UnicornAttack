@@ -1,182 +1,156 @@
 #include "Unicorn.h"
 					 
 Unicorn::Unicorn() : 
-	/* Unicorn starting coordinates initializing */
-	coordinates{ UNICORN_START_X_POS, GROUND_Y - RUNNING_ANIMATION_FRAME_HEIGHT },
+//**  Unicorn start coordinates initialization  **//
+	unicornCoordinates(UNICORN_START_X_POS, UNICORN_START_Y_POS),
 
-	/* Initializing empty unicorn texture */
-	unicornTexture{},
+//**  Initializing empty unicorn texture **//
+	unicornTexture(),
 
-	/* All texture animation initializing */
-	runningAnimation{ RUNNING_ANIMATION_SHEET_PATH, RUNNING_ANIMATION_SPEED, RUNNING_ANIMATION_FRAME_WIDTH, RUNNING_ANIMATION_FRAME_HEIGHT, true },
-	jumpingAnimation{ JUMPING_ANIMATION_SHEET_PATH, JUMPING_ANIMATION_SPEED, JUMPING_ANIMATION_FRAME_WIDTH, JUMPING_ANIMATION_FRAME_HEIGHT, false },
-	fallingAnimation{ FALLING_ANIMATION_SHEET_PATH, FALLING_ANIMATION_SPEED, FALLING_ANIMATION_FRAME_WIDTH, FALLING_ANIMATION_FRAME_HEIGHT, false },
-	dashingAnimation{ DASHING_ANIMATION_SHEET_PATH, DASHING_ANIMATION_SPEED, DASHING_ANIMATION_FRAME_WIDTH, DASHING_ANIMATION_FRAME_HEIGHT, false },
+//**  Counters zero initialization **//
+	jumpCounter(),
+	dashCounter(),
 
-	/*Timers initialization */
-	lastJumpTimer{},
-	lastDashTimer{}
+//**  All texture animation initialization  **//
+	runningAnimation( RUNNING_ANIMATION_SHEET_PATH, RUNNING_ANIMATION_FRAME_WIDTH, RUNNING_ANIMATION_FRAME_HEIGHT, true ),
+	jumpingAnimation( JUMPING_ANIMATION_SHEET_PATH, JUMPING_ANIMATION_FRAME_WIDTH, JUMPING_ANIMATION_FRAME_HEIGHT, false ),
+	fallingAnimation( FALLING_ANIMATION_SHEET_PATH, FALLING_ANIMATION_FRAME_WIDTH, FALLING_ANIMATION_FRAME_HEIGHT, false ),
+	dashingAnimation( DASHING_ANIMATION_SHEET_PATH, DASHING_ANIMATION_FRAME_WIDTH, DASHING_ANIMATION_FRAME_HEIGHT, false )
 {
-	/* Set current texture animation, let it be running animation at begin */
+//** Setting up current texture animation, let it be running animation at begin **//
 	unicornTexture = runningAnimation;
+
+//**  Setting up unicorn Box2D collision body  **//
+
+	/* Setting up unicorn body form */
+	b2PolygonShape bodyShape;
+	bodyShape.SetAsBox(PIXELS_TO_METERS(unicornTexture.textureWidth), PIXELS_TO_METERS(unicornTexture.textureHeight));
+
+	/* Setting up fixture parameters */
+	b2FixtureDef fixtureDefinition;
+	fixtureDefinition.shape = &bodyShape;
+	fixtureDefinition.density = 1.0f;
+	fixtureDefinition.friction = 0.0f;
+
+	/* Setting up unicorn body type and position */
+	b2BodyDef bodyDefinition;
+	bodyDefinition.type = b2_dynamicBody;
+	bodyDefinition.position.Set(PIXELS_TO_METERS(unicornCoordinates.xPosition), -PIXELS_TO_METERS(unicornCoordinates.yPosition));
+	bodyDefinition.fixedRotation = true;
+	bodyDefinition.userData.pointer = reinterpret_cast<uintptr_t>("Unicorn");
+
+	/* Adding unicorn collision body to our game world and setting a fixture */
+	unicornCollisionBody = Game::box2DWorld->CreateBody(&bodyDefinition);
+	unicornCollisionBody->CreateFixture(&fixtureDefinition);
 }
 
 void Unicorn::HandleEvents(SDL_Event* event)
 {
-	switch (Game::event.key.keysym.sym)
-	{
-	// Jump //
-	case CONRTOL_JUMP:
-		if (Game::unicorn->unicornJumpState == UnicornJumpState::DID_NOT_JUMPED)
+//**  JUMP  **//
+	if (Game::event->key.keysym.sym == CONRTOL_JUMP)
+		if (jumpCounter < MAX_JUMPS)
 		{
-			Game::unicorn->unicornJumpState = UnicornJumpState::JUMPED;
-			Game::unicorn->lastDashTimer.Restart();
-			break;
+			/* Maek Unicorn collision body jump */
+			unicornCollisionBody->SetLinearVelocity(b2Vec2(unicornCollisionBody->GetLinearVelocity().x, 0.0f)); // Setting unicorn falling speed to 0 to prevent strange jump
+			unicornCollisionBody->ApplyLinearImpulseToCenter(b2Vec2(0.0f, 100.0f), true);
+
+			/* Increase count of jumps */
+			jumpCounter++;
 		}
-		else if (Game::unicorn->unicornJumpState == UnicornJumpState::JUMPED)
+
+//**  DASH  **//
+	if (Game::event->key.keysym.sym == CONRTOL_DASH)
+		if (dashCounter < MAX_DASHES)
 		{
-			Game::unicorn->unicornJumpState = UnicornJumpState::DOUBLE_JUMPED;
-			Game::unicorn->lastDashTimer.Restart();
-			break;
+			unicornCollisionBody->ApplyLinearImpulseToCenter(b2Vec2(100.0f, 0.0f), true);
+			dashCounter++;
 		}
-		break;
 
-	// Move right //
-	case CONRTOL_MOVE_RIGHT:
-		//if((!Game::map->CheckCollizionFromRight() || Game::unicorn->unicornState == ON_BLOCK) && Game::autoGameMode == false)
-			Game::map->moveMapLeft(GAME_SPEED);
-		break;
-
-	// Move left //
-	case CONRTOL_MOVE_LEFT:
-		//if ((!Game::map->CheckCollizionFromLeft() || Game::unicorn->unicornState == ON_BLOCK) && Game::autoGameMode == false)
-			Game::map->moveMapRight(GAME_SPEED);
-		break;
-
-	// Dash //
-	case CONRTOL_DASH:
-		//if (!Game::map->CheckCollizionFromRight())
-		{
-			Game::unicorn->unicornState = UnicornState::DASHING;
-			Game::unicorn->lastDashTimer.Restart();
-			Game::map->moveMapLeft(DASH_DISTANCE);
-
-			if (Game::unicorn->unicornJumpState == UnicornJumpState::DOUBLE_JUMPED)
-				Game::unicorn->unicornJumpState = UnicornJumpState::JUMPED;
-		}
-		break;
-	default:
-		break;
-	}
 }
 
 void Unicorn::Update()
 {
+	std::cout << "LinearVelocity.y = " << unicornCollisionBody->GetLinearVelocity().y << std::endl;
 
-	// Jumping
-	if ( (Game::unicorn->unicornJumpState == UnicornJumpState::JUMPED || Game::unicorn->unicornJumpState == UnicornJumpState::DOUBLE_JUMPED)
-	   && Game::unicorn->lastJumpTimer.GetTimeInSeconds() < 3)
+//**  Unicorn animations handling **//
+
+	/* Set running animation if unicorn is on ground, and reset jumping and falling animations  */
+	if (Game::contactListener->unicornTouchingGround == true)
 	{
-		Game::unicorn->coordinates.yPosition -= 15;
-		Game::unicorn->unicornState = UnicornState::JUMPING;
+		unicornTexture = runningAnimation;
+
+		fallingAnimation.Restart();
+		jumpingAnimation.Restart();
 	}
 
-	if (Game::unicorn->lastDashTimer.GetTimeInSeconds() < 2)
+	/* Set falling animation if unicorn's speed less then 0 (if it's falling) */
+	if (unicornCollisionBody->GetLinearVelocity().y < -0.1f) // Using -0.1 istead of 0.0 to prevent some shitty bugs
 	{
-		Game::unicorn->unicornState = UnicornState::DASHING;
+		unicornTexture = fallingAnimation;
+		jumpingAnimation.Restart();
 	}
 
-	if (Game::unicorn->lastJumpTimer.GetTimeInSeconds() > 3 && Game::unicorn->lastDashTimer.GetTimeInSeconds() > 2)
+	/* Set jumping animation if unicorn's speed more then 0 (if it's jumping) */
+	if (unicornCollisionBody->GetLinearVelocity().y > 0.1f)  // Using 0.1 istead of 0.0 to prevent some shitty bugs
 	{
-		Game::unicorn->unicornState = UnicornState::FALLING;
+		unicornTexture = jumpingAnimation;
+
+		/* Restarting falling animation to play it from begin when it will start to fall after jump */
+		fallingAnimation.Restart();
 	}
 
+	/*  All animations update (move animation current frame to next step) */
+	UpdateAllAnimations();
+	
+//** Unicorn data update **//
 
-	//------- Unicorn state check -------//
+	/*  Make Unicorn run to the right */
+	if(unicornCollisionBody->GetLinearVelocity().x < 25.0f)
+		unicornCollisionBody->ApplyForceToCenter(b2Vec2(5.0f, 0.0f), true);
 
-	// Falling check
-	//if (Game::map->CheckCollizionWithGround())
-	/*{
-		Game::unicorn->unicornJumpState = DID_NOT_JUMPED;
-		unicornState = ON_GROUND;
-	}
+	/*  Unicorn coordinates updating to his collision body coordinates */
+	unicornCoordinates = unicornCollisionBody->GetPosition();
 
-	//else if (Game::map->CheckCollizionFromDown())
-	{
-		Game::unicorn->unicornJumpState = DID_NOT_JUMPED;
-		unicornState = ON_BLOCK;
-	}	*/
+	/* Reseting dash and jump counters when Unicorn touching ground */
+	if (Game::contactListener->unicornTouchingGround == true)
+		dashCounter = jumpCounter = 0;
 
-	//------- Unicorn moving -------//
+//**  Here we follow unicorn with our camera, and setting unicorn at screen center **//
 
-	//if ((!Game::map->CheckCollizionFromRight() || Game::unicorn->unicornState == ON_BLOCK) && Game::autoGameMode == true) // Check if there is no collizion from right, if unicorn is staying on ground and if auto game mode is turned on
-	/*	Game::map->moveMapLeft(GAME_SPEED + (Game::gameTimer->timer.GetTimeInSeconds() / 100));
+	Game::camera->SetPosition(unicornCoordinates.xPosition, unicornCoordinates.yPosition - (SCREEN_HEIGHT / 2) + 200);
+}
 
-	if (Game::unicorn->unicornState == FALLING) // Check if unicron  is falling
-		Game::unicorn->coordinates.yPosition += UNICORN_FALLING_SPEED;*/
+void Unicorn::Render()
+{
+	SDL_Rect renderRectangle = { unicornCoordinates.xPosition - Game::camera->GetXPosition(),
+								 unicornCoordinates.yPosition - Game::camera->GetYPosition(),
+								 unicornTexture.textureWidth,
+								 unicornTexture.textureHeight };
 
-	//------- Unicorn animations doing -------//
+	SDL_RenderCopy(Game::renderer, unicornTexture.texture, NULL, &renderRectangle);
+}
 
-	/*unsigned int lastTime = 0, currentTime = SDL_GetTicks();
-	if (currentTime > lastTime + 3000) 
-	{
+void Unicorn::Restart()
+{
+	unicornCoordinates.Restart();
+	unicornCollisionBody->SetTransform(b2Vec2(PIXELS_TO_METERS(unicornCoordinates.startXPosition), -PIXELS_TO_METERS(unicornCoordinates.startYPosition)), 0.0f);
+	unicornCollisionBody->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
+}
 
-		std::cout << "Unicorn state: " << Game::unicorn->unicornState << "Animation state: " << Game::unicorn->unicornAnimationState << std::endl;
-
-		switch (Game::unicorn->unicornState)
-		{
-		case ON_GROUND:
-			unicornTexture.setAnimation(runningAnimation);
-			break;
-
-		case ON_BLOCK:
-			unicornTexture.setAnimation(runningAnimation);
-			break;
-
-		case FALLING:
-			unicornTexture.setAnimation(fallingAnimation);
-			break;
-
-		case JUMPING:
-			unicornTexture.setAnimation(jumpingAnimation);
-			break;
-
-		case DASHING:
-			unicornTexture.setAnimation(dashingAnimation);
-			break;
-
-		default:
-			break;
-		}
-		
-		lastTime = currentTime;
-	}*/
-
-	unicornTexture = runningAnimation;
-
-	/* All animation update (move current animation frame to next step) */
+void Unicorn::UpdateAllAnimations()
+{
 	runningAnimation.Update();
 	jumpingAnimation.Update();
 	fallingAnimation.Update();
 	dashingAnimation.Update();
 }
 
-void Unicorn::Render()
-{
-	SDL_Rect renderRectangle = { coordinates.xPosition, coordinates.yPosition, unicornTexture.textureWidth, unicornTexture.textureHeight };
-	SDL_RenderCopy(Game::renderer, unicornTexture.texture, NULL, &renderRectangle);
-}
-
-void Unicorn::Restart()
-{
-	coordinates.Restart();
-}
-
 Unicorn::~Unicorn()
 {
 	unicornTexture.DestroyTexture();
+
 	runningAnimation.DestroyTextureAnimation();
 	jumpingAnimation.DestroyTextureAnimation();
 	fallingAnimation.DestroyTextureAnimation();
-	dashingAnimation.DestroyTextureAnimation();
+	dashingAnimation.DestroyTextureAnimation(); 
 }

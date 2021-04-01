@@ -1,18 +1,17 @@
 #include "TextureComponent.h"
 
 TextureComponent::TextureComponent() :
-	texture{},
-	textureWidth{ 0 },
-	textureHeight{ 0 } 
+	texture(),
+	textureWidth(0),
+	textureHeight(0) 
 {}
 
 TextureComponent::TextureComponent(std::string texturePath, int textureWidth, int textureHeight) :
-	textureWidth{ textureWidth },
-	textureHeight{ textureHeight }  
+	textureWidth(textureWidth),
+	textureHeight(textureHeight)  
 {
-
 	/* Creating a surface from picture, check is everything is okay */
-	SDL_Surface* tempSurface = SDL_LoadBMP(texturePath.c_str());
+	SDL_Surface* tempSurface = IMG_Load(texturePath.c_str());
 	if (tempSurface == NULL)
 		std::cout << "TextureComponent constructor error: SDL_LoadBMP = NULL" << std::endl;
 
@@ -48,9 +47,9 @@ void TextureComponent::operator = (const TextureAnimationComponent& animation)
 	SDL_Surface* surfaceWithCurrentFrame = animation.getSurfaceWithCurrentFrame();
 
 	/* Creating a new texture from surface with animation frame and setting texture width and height */
-	texture = SDL_CreateTextureFromSurface(Game::renderer, surfaceWithCurrentFrame);
-	textureWidth = surfaceWithCurrentFrame->w;
-	textureHeight = surfaceWithCurrentFrame->h;
+	this->texture = SDL_CreateTextureFromSurface(Game::renderer, surfaceWithCurrentFrame);
+	this->textureWidth = surfaceWithCurrentFrame->w;
+	this->textureHeight = surfaceWithCurrentFrame->h;
 
 	/* Destroying temporary surface */
 	SDL_FreeSurface(surfaceWithCurrentFrame);
