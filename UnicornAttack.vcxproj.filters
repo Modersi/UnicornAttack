@@ -11,8 +11,12 @@
     <ClCompile Include="Game\GameTimer.cpp" />
     <ClCompile Include="Game\Unicorn.cpp" />
     <ClCompile Include="Map\Map.cpp" />
-    <ClCompile Include="Map\MapEntity.cpp" />
     <ClCompile Include="Map\Tile.cpp" />
+    <ClCompile Include="Game\Camera.cpp" />
+    <ClCompile Include="Map\Entities\BasicEntity.cpp" />
+    <ClCompile Include="Map\Entities\SquareStaticEntity.cpp" />
+    <ClCompile Include="Map\Entities\MultiVertexStaticEntity.cpp" />
+    <ClCompile Include="Game\ContactListener.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -26,15 +30,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Source\Textures\blockInFormLikeGround.bmp">
-      <Filter>Source\Textures</Filter>
-    </Image>
-    <Image Include="Source\Textures\blockTexture.bmp">
-      <Filter>Source\Textures</Filter>
-    </Image>
-    <Image Include="Source\Textures\dephineSheet.bmp">
-      <Filter>Source\Textures</Filter>
-    </Image>
     <Image Include="Source\Textures\UnicornDashAnimationSheet.bmp">
       <Filter>Source\Textures</Filter>
     </Image>
@@ -50,7 +45,10 @@
     <Image Include="Source\Textures\unicornSheet.bmp">
       <Filter>Source\Textures</Filter>
     </Image>
-    <Image Include="Source\Textures\groundTexture.bmp" />
+    <Image Include="Source\Textures\Ground_1.png" />
+    <Image Include="Source\Textures\Ground_2.png" />
+    <Image Include="Source\Textures\Star.png" />
+    <Image Include="Source\Textures\GroundSpikes.png" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Source\Fonts\PixelFont.ttf">
@@ -58,7 +56,6 @@
     </Font>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Components\CollisionComponent.h" />
     <ClInclude Include="Components\CoordinatesComponent.h" />
     <ClInclude Include="Components\FontComponent.h" />
     <ClInclude Include="Components\TextureAnimationComponent.h" />
@@ -68,7 +65,11 @@
     <ClInclude Include="Game\GameTimer.h" />
     <ClInclude Include="Game\Unicorn.h" />
     <ClInclude Include="Map\Map.h" />
-    <ClInclude Include="Map\MapEntity.h" />
     <ClInclude Include="Map\Tile.h" />
+    <ClInclude Include="Game\Camera.h" />
+    <ClInclude Include="Map\Entities\BasicEntity.h" />
+    <ClInclude Include="Map\Entities\SquareStaticEntity.h" />
+    <ClInclude Include="Map\Entities\MultiVertexStaticEntity.h" />
+    <ClInclude Include="Game\ContactListener.h" />
   </ItemGroup>
 </Project>

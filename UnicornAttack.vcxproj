@@ -90,12 +90,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Non-system\Programs\GitHub Repositories\UnicornAttack\Box2D\include;C:\Non-system\Programs\GitHub Repositories\UnicornAttack\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Non-system\Programs\GitHub Repositories\UnicornAttack\SDL2\SDL_Image\include;C:\Non-system\Programs\GitHub Repositories\UnicornAttack\Box2D\include;C:\Non-system\Programs\GitHub Repositories\UnicornAttack\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>C:\Non-system\Programs\GitHub Repositories\UnicornAttack\SDL2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Non-system\Programs\GitHub Repositories\UnicornAttack\SDL2\SDL_Image\lib\x64;C:\Non-system\Programs\GitHub Repositories\UnicornAttack\Box2D\lib;C:\Non-system\Programs\GitHub Repositories\UnicornAttack\SDL2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;box2d.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -134,19 +134,23 @@
     <ClCompile Include="Components\TextureAnimationComponent.cpp" />
     <ClCompile Include="Components\TextureComponent.cpp" />
     <ClCompile Include="Components\TimerComponent.cpp" />
+    <ClCompile Include="Game\Camera.cpp" />
+    <ClCompile Include="Game\ContactListener.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\GameTimer.cpp" />
     <ClCompile Include="Game\Unicorn.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map\Entities\SquareStaticEntity.cpp" />
+    <ClCompile Include="Map\Entities\MultiVertexStaticEntity.cpp" />
     <ClCompile Include="Map\Map.cpp" />
-    <ClCompile Include="Map\MapEntity.cpp" />
+    <ClCompile Include="Map\Entities\BasicEntity.cpp" />
     <ClCompile Include="Map\Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Source\Textures\blockInFormLikeGround.bmp" />
-    <Image Include="Source\Textures\blockTexture.bmp" />
-    <Image Include="Source\Textures\dephineSheet.bmp" />
-    <Image Include="Source\Textures\groundTexture.bmp" />
+    <Image Include="Source\Textures\GroundSpikes.png" />
+    <Image Include="Source\Textures\Ground_1.png" />
+    <Image Include="Source\Textures\Ground_2.png" />
+    <Image Include="Source\Textures\Star.png" />
     <Image Include="Source\Textures\UnicornDashAnimationSheet.bmp" />
     <Image Include="Source\Textures\UnicornFallingAnimationSheet.bmp" />
     <Image Include="Source\Textures\UnicornJumpingAnimationSheet.bmp" />
@@ -157,17 +161,20 @@
     <Font Include="Source\Fonts\PixelFont.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Components\CollisionComponent.h" />
     <ClInclude Include="Components\CoordinatesComponent.h" />
     <ClInclude Include="Components\FontComponent.h" />
     <ClInclude Include="Components\TextureAnimationComponent.h" />
     <ClInclude Include="Components\TextureComponent.h" />
     <ClInclude Include="Components\TimerComponent.h" />
+    <ClInclude Include="Game\Camera.h" />
+    <ClInclude Include="Game\ContactListener.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\GameTimer.h" />
     <ClInclude Include="Game\Unicorn.h" />
+    <ClInclude Include="Map\Entities\SquareStaticEntity.h" />
+    <ClInclude Include="Map\Entities\MultiVertexStaticEntity.h" />
     <ClInclude Include="Map\Map.h" />
-    <ClInclude Include="Map\MapEntity.h" />
+    <ClInclude Include="Map\Entities\BasicEntity.h" />
     <ClInclude Include="Map\Tile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

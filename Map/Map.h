@@ -1,35 +1,43 @@
-
 #pragma once
 
 #include "../Game/Game.h"
 #include "../Game/Unicorn.h"
 #include "Tile.h"
 
-constexpr auto GROUND_TEXTURE_PATH =	"Source/Textures/groundTexture.bmp";
-constexpr auto GROUND_TEXTURE_HEIGHT =	75;
-constexpr auto GROUND_TEXTURE_WIDTH =	3000;
+constexpr auto BACKGROUND_TEXTURE_PATH =	"Source/Textures/Background.png";
+constexpr auto BACKGROUND_TEXTURE_HEIGHT =	1080;
+constexpr auto BACKGROUND_TEXTURE_WIDTH =	1920;
 
-constexpr auto BLOCK_TEXTURE_PATH =		"Source/Textures/blockTexture.bmp";
-constexpr auto BLOCK_TEXTURE_HEIGHT =	180;
-constexpr auto BLOCK_TEXTURE_WIDTH =	187;
+constexpr auto GROUND_1_TEXTURE_PATH =		"Source/Textures/Ground_1.png";
+constexpr auto GROUND_1_TEXTURE_HEIGHT =	639;
+constexpr auto GROUND_1_TEXTURE_WIDTH =		1225;
 
-struct Map
+constexpr auto GROUND_2_TEXTURE_PATH =		"Source/Textures/Ground_2.png";
+constexpr auto GROUND_2_TEXTURE_HEIGHT =	639;
+constexpr auto GROUND_2_TEXTURE_WIDTH =		1834;
+
+constexpr auto STAR_TEXTURE_PATH =		"Source/Textures/Star.png";
+constexpr auto STAR_TEXTURE_HEIGHT =	180;
+constexpr auto STAR_TEXTURE_WIDTH =		187;
+
+constexpr auto GROUND_SPIKES_TEXTURE_PATH =		"Source/Textures/GroundSpikes.png";
+constexpr auto GROUND_SPIKES_TEXTURE_HEIGHT =	170;
+constexpr auto GROUND_SPIKES_TEXTURE_WIDTH =	92;
+
+class Map
 {
+public:
 	Map();
-
-	void moveMapRight(int pixelsToMove);
-	void moveMapLeft(int pixelsToMove);
+	~Map();
 
 	void Update();
 
-	void Render();
+	void Render() const;
 
 	void Restart();
 
-	/*bool CheckCollizionFromRight();
-	bool CheckCollizionFromLeft();
-	bool CheckCollizionFromDown();
-	bool CheckCollizionWithGround();*/
-
-	std::vector<Tile> tiles;
+private:
+	TextureComponent backgroundTexture;
+	std::vector<Tile> tiles; // Vector which contains all tiles 
+	std::mt19937 randomNumbersGenerator; // Using this generetor to make random gaps between tiles
 };
