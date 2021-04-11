@@ -11,7 +11,7 @@ project( UnicornAttack
 add_executable( ${PROJECT_NAME} main.cpp )
 
 # Setting executable file destination folder #
-install( TARGETS ${PROJECT_NAME} DESTINATION ${PROJECT_SOURCE_DIR}/../Builded )
+install( TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX} )
 
 # Adding Textures and Fonts to game build folder to make it possible to run game from IDE #
 install( DIRECTORY
@@ -35,7 +35,7 @@ install( DIRECTORY
 			${PROJECT_SOURCE_DIR}/Textures
 			${PROJECT_SOURCE_DIR}/Fonts
 		 DESTINATION
-			${PROJECT_SOURCE_DIR}/../Builded )
+			${CMAKE_INSTALL_PREFIX} )
 
 # Including all header files #
 target_include_directories( ${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/Headers/Game )
@@ -82,7 +82,7 @@ target_link_libraries ( ${PROJECT_NAME}
 							${PROJECT_SOURCE_DIR}/Libraries/SDL2/SDL2main.lib )
 
 # Adding SDL2 DLL's to game install folder #
-install( FILES ${PROJECT_SOURCE_DIR}/Libraries/SDL2/SDL2.dll DESTINATION ${PROJECT_SOURCE_DIR}/../Builded )
+install( FILES ${PROJECT_SOURCE_DIR}/Libraries/SDL2/SDL2.dll DESTINATION ${CMAKE_INSTALL_PREFIX} )
 
 
 
@@ -100,7 +100,7 @@ install( FILES
 			${PROJECT_SOURCE_DIR}/Libraries/SDL2Image/SDL2_image.dll
 			${PROJECT_SOURCE_DIR}/Libraries/SDL2Image/zlib1.dll
 		 DESTINATION 
-			${PROJECT_SOURCE_DIR}/../Builded )
+			${CMAKE_INSTALL_PREFIX} )
 
 
 
@@ -117,7 +117,7 @@ install( FILES
 			${PROJECT_SOURCE_DIR}/Libraries/SDL2TTF/libfreetype-6.dll
 			${PROJECT_SOURCE_DIR}/Libraries/SDL2TTF/SDL2_ttf.dll
 		 DESTINATION 
-			${PROJECT_SOURCE_DIR}/../Builded )
+			${CMAKE_INSTALL_PREFIX} )
 
 
 
