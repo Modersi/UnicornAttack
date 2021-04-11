@@ -1,4 +1,4 @@
-#include "Game/Game.h"
+#include "Game.h"
 
 /* Constants needed to make fixed FPS */
 constexpr auto TARGET_FPS =			60;
