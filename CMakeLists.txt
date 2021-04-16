@@ -66,7 +66,7 @@ set( ${PROJECT_NAME}_SourceFiles
 		Sources/Game/Components/TextureComponent.cpp
 		Sources/Game/Components/TimerComponent.cpp )
 
-# Setting source files of our game #
+# Setting source files for our game #
 target_sources( ${PROJECT_NAME} PRIVATE ${${PROJECT_NAME}_SourceFiles} )
 
 
